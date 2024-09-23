@@ -7,18 +7,23 @@
         <h1>Edit Patient</h1>
         
         <?php
+
+        session_start(); // Start the session
+
             
 		// Include the database connection file
 		include 'db_connection.php';
-            
-            // Check if patient ID is supplied
-            if (!isset($_GET['id']) || empty($_GET['id'])) {
-                echo "Error: Patient ID not supplied.";
-                $db->close();
-                exit;
-            }
-            $patientID = $_GET['id'];       
-            
+           
+           // Check if the user is logged in
+    if (!isset($_SESSION['username'])) {
+    // Redirect to the login page if not logged in
+    header("Location: login.php");
+    exit;
+}
+
+	
+$patientID = $_GET['id'];	
+
             // If form is submitted, process the form data
             if (isset($_POST['submit'])) {
                 $submit = $_POST['submit'];

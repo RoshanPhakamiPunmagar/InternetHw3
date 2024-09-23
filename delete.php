@@ -7,17 +7,19 @@
 		<h1>Delete Patient</h1>
 		
 		<?php
+		session_start(); //start the session
 			
 		// Include the database connection file
 		include 'db_connection.php';
 
-			// Check if patient ID is provided
-			if (!isset($_GET['id']) || empty($_GET['id'])) {
-				echo "Error: Patient ID not supplied.";
-				$db->close();
-				exit;
-			}
-			
+		//check if the user is already logged in
+		if(!isset($_SESSION['username'])){
+			//Redirect to the login page if the user is not already logged in
+			header("Location: login.php");
+			exit;
+		}
+		
+
 			$patientID = $_GET['id'];		
 			
 			// Check if form is submitted (Delete or Cancel)

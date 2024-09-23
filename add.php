@@ -8,9 +8,17 @@
     <h1>Add Patient</h1>
 
     <?php
+    session_start();
    
 		// Include the database connection file
 		include 'db_connection.php';
+
+        //check if the user is logged in
+        if(!isset($_SESSION['username'])){
+            //redirect to the login page if not logged in
+            header("Location:login.php");
+            exit;
+        }
         
     // Check if the form has been submitted
     if (isset($_POST['submit'])) {
@@ -81,8 +89,8 @@
                     <td>Sex:</td>
                     <td>
                         <select name="sex" required>
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
+                            <option value="M">M</option>
+                            <option value="F">F</option>
                         </select>
                     </td>
                 </tr>
