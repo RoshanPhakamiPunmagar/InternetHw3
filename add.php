@@ -8,21 +8,10 @@
     <h1>Add Patient</h1>
 
     <?php
-    // Database connection details
-    $dbAddress = 'localhost';
-    $dbUser = 'webauth';
-    $dbPass = 'webauth';
-    $dbName = 'gp_clinic'; // Adjust your database name if necessary
-
-    // Create a new database connection
-    $db = new mysqli($dbAddress, $dbUser, $dbPass, $dbName);
-
-    // Check for a connection error
-    if ($db->connect_error) {
-        echo "Could not connect to the database";
-        exit;
-    }
-
+   
+		// Include the database connection file
+		include 'db_connection.php';
+        
     // Check if the form has been submitted
     if (isset($_POST['submit'])) {
         $submit = $_POST['submit'];
@@ -60,10 +49,10 @@
         // Check if the insertion was successful
         if ($stmt->affected_rows == 1) {
             echo "Successfully Added Patient<br>";
-            echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+            echo "<a href=\"patients.php\">Back to Patient List</a>";
         } else {
             echo "Failed to Add Patient<br>";
-            echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+            echo "<a href=\"patients.php\">Back to Patient List</a>";
         }
 
         $stmt->close();

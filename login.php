@@ -1,4 +1,9 @@
 <?php
+
+
+		// Include the database connection file
+		include 'db_connection.php';
+
 session_start();
 
 if (isset($_SESSION['username'])) {
@@ -8,8 +13,6 @@ if (isset($_SESSION['username'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // If form is submitted, handle login
-    require('db_connection.php');
 
     $name = $_POST['username'];
     $password = $_POST['password'];

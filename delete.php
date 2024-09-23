@@ -7,19 +7,10 @@
 		<h1>Delete Patient</h1>
 		
 		<?php
-			// Database connection details
-			$dbAddress = 'localhost';
-			$dbUser = 'webauth';
-			$dbPass = 'webauth';
-			$dbName = 'gp_clinic';
 			
-			$db = new mysqli($dbAddress, $dbUser, $dbPass, $dbName);
-			
-			if ($db->connect_error) {
-				echo "Could not connect to the database";
-				exit;
-			}
-			
+		// Include the database connection file
+		include 'db_connection.php';
+
 			// Check if patient ID is provided
 			if (!isset($_GET['id']) || empty($_GET['id'])) {
 				echo "Error: Patient ID not supplied.";
@@ -34,7 +25,7 @@
 				$submit = $_POST['submit'];
 				if ($submit == "Cancel") {
 					$db->close();
-					header('location: view_patients.php');
+					header('location: patients.php');
 					exit;
 				}		
 				
@@ -50,11 +41,11 @@
 				// Check if the deletion was successful
 				if ($affectedRows == 1) {
 					echo "Successfully Deleted Patient<br>";
-					echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+					echo "<a href=\"patients.php\">Back to Patient List</a>";
 					exit;		
 				} else {
 					echo "Failed to Delete Patient<br>";
-					echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+					echo "<a href=\"patients.php\">Back to Patient List</a>";
 					exit;				
 				}
 			}

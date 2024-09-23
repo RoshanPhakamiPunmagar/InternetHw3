@@ -7,19 +7,9 @@
         <h1>Edit Patient</h1>
         
         <?php
-            // Database connection details
-            $dbAddress = 'localhost';
-            $dbUser = 'webauth';
-            $dbPass = 'webauth';
-            $dbName = 'gp_clinic';
             
-            // Establish a connection to the database
-            $db = new mysqli($dbAddress, $dbUser, $dbPass, $dbName);
-            
-            if ($db->connect_error) {
-                echo "Could not connect to the database";
-                exit;
-            }
+		// Include the database connection file
+		include 'db_connection.php';
             
             // Check if patient ID is supplied
             if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -101,17 +91,17 @@
                 // Check if the update was successful or no changes were made
                 if ($affectedRows == 1) {
                     echo "Successfully Updated Patient<br>";
-                    echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+                    echo "<a href=\"patients.php\">Back to Patient List</a>";
                     echo "<br><hr>";
                     exit;     
                 } else if ($affectedRows == 0) {
                     echo "No changes were made. The data was identical to what is already in the database.<br>";
-                    echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+                    echo "<a href=\"patients.php\">Back to Patient List</a>";
                     echo "<br><hr>";
                     exit;
                 } else {
                     echo "Failed to Update Patient<br>";
-                    echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+                    echo "<a href=\"patients.php\">Back to Patient List</a>";
                     echo "<br><hr>";
                     exit;               
                 }
@@ -157,8 +147,8 @@
                             <td>Sex:</td>
                             <td>
                                 <select name="sex">
-                                    <option value="M" . ($sex == 'Male' ? 'selected' : '') . >Male</option>
-                                    <option value="F" . ($sex == 'Female' ? 'selected' : '') . >Female</option>
+                                    <option value="M" . ($sex == 'Male' ? 'selected' : '') . >M</option>
+                                    <option value="F" . ($sex == 'Female' ? 'selected' : '') . >F</option>
                                 </select>
                             </td>
                         </tr>

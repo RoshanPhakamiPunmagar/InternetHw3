@@ -1,4 +1,9 @@
 <?php
+
+
+		// Include the database connection file
+		include 'db_connection.php';
+        
 session_start(); // Start the session
 
 // Check if the user is logged in
