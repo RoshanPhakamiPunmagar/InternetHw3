@@ -1,3 +1,14 @@
+<!--
+ * Author: Roshan Phakami PunMagar
+ * File Name: add.php
+ * Date: 30/9/2024
+ * Purpose:
+ * This script handles the functionality for adding a new patient to the GP Clinic system.
+ * It includes form validation, inserting data into the patients table in the database,
+ * and providing options for users to either submit or cancel the form. If the form
+ * is submitted successfully, a new patient is added to the system. 
+-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,35 +19,35 @@
     <h1>Add Patient</h1>
 
     <?php
-    session_start();
-   
-		// Include the database connection file
-		include 'db_connection.php';
+    session_start(); // Start a new session or resume an existing one
 
-        //check if the user is logged in
-        if(!isset($_SESSION['username'])){
-            //redirect to the login page if not logged in
-            header("Location:login.php");
-            exit;
-        }
-        
+    // Include the database connection file to connect to the MySQL database
+    include 'db_connection.php';
+
+    // Check if the user is logged in
+    if (!isset($_SESSION['username'])) {
+        // Redirect to login page if the user is not logged in
+        header("Location: login.php");
+        exit;
+    }
+    
     // Check if the form has been submitted
     if (isset($_POST['submit'])) {
-        $submit = $_POST['submit'];
+        $submit = $_POST['submit'];  // Get the value of the submit button
 
         // Handle the Cancel action
         if ($submit == "Cancel") {
-            $db->close();
-            header('location: home.php'); // Redirect back to the home page
+            $db->close(); // Close the database connection
+            header('location: home.php'); // Redirect to the home page
             exit;
         }
 
-        // Validate required fields
+        // Validate that all required fields are filled
         if (empty($_POST['first_name']) || empty($_POST['last_name']) || empty($_POST['dob']) ||
             empty($_POST['sex']) || empty($_POST['address']) || empty($_POST['city']) || empty($_POST['phone'])) {
-            echo "Error: All fields are required.";
-            $db->close();
-            exit;
+            echo "Error: All fields are required.";  // Display error if any field is missing
+            $db->close();  // Close the database connection
+            exit;  // Stop script execution
         }
 
         // Assign form values to variables
@@ -48,26 +59,28 @@
         $city = $_POST['city'];
         $phone = $_POST['phone'];
 
-        // Insert patient data into the database
+        // Prepare an SQL query to insert patient data into the database
         $query = "INSERT INTO patients (first_name, last_name, date_of_birth, sex, address, city, phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $db->prepare($query);
-        $stmt->bind_param("sssssss", $firstName, $lastName, $dob, $sex, $address, $city, $phone);
-        $stmt->execute();
+        $stmt = $db->prepare($query);  // Prepare the SQL statement for execution
+        $stmt->bind_param("sssssss", $firstName, $lastName, $dob, $sex, $address, $city, $phone);  // Bind parameters to the query
+        $stmt->execute();  // Execute the SQL query
 
         // Check if the insertion was successful
         if ($stmt->affected_rows == 1) {
+            // Display success message and link back to patient list
             echo "Successfully Added Patient<br>";
             echo "<a href=\"patients.php\">Back to Patient List</a>";
         } else {
+            // Display failure message and link back to patient list
             echo "Failed to Add Patient<br>";
             echo "<a href=\"patients.php\">Back to Patient List</a>";
         }
 
-        $stmt->close();
-        $db->close();
-        exit;
+        $stmt->close();  // Close the prepared statement
+        $db->close();    // Close the database connection
+        exit;  // Exit the script
     } else {
-        // Display the form for adding a patient
+        // If the form has not been submitted, display the form for adding a patient
         echo <<<END
         <form action="" method="POST">
             <table>
@@ -81,9 +94,7 @@
                 </tr>
                 <tr>
                     <td>Date of Birth:</td>
-                    <td>
-                        <input type="date" name="dob" required>
-                    </td>
+                    <td><input type="date" name="dob" required></td>
                 </tr>
                 <tr>
                     <td>Sex:</td>
@@ -108,13 +119,14 @@
                 </tr>
             </table>
             <br>
+            <!-- Submit and Cancel buttons -->
             <input type="submit" name="submit" value="Add">
             <input type="submit" name="submit" value="Cancel">
         </form>
 END;
     }
 
-    $db->close();
+    $db->close(); // Close the database connection
     ?>
 </body>
 </html>
