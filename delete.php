@@ -45,7 +45,7 @@
         }
 
         // Prepare the SQL query to delete the patient from the database
-        $query = "DELETE FROM patients WHERE patientid = ?";
+        $query = "DELETE FROM patients WHERE patientId = ?";
         $stmt = $db->prepare($query); // Prepare the SQL statement
         $stmt->bind_param("i", $patientID); // Bind the patient ID parameter
         $stmt->execute(); // Execute the deletion
@@ -68,7 +68,7 @@
         }
     } else {
         // Fetch the patient details to display for confirmation before deletion
-        $query_patient_details = "SELECT * FROM patients WHERE patientid = ?";
+        $query_patient_details = "SELECT * FROM patients WHERE patientId = ?";
         $stmt_patient_details = $db->prepare($query_patient_details); // Prepare SQL query
         $stmt_patient_details->bind_param("i", $patientID); // Bind the patient ID parameter
         $stmt_patient_details->execute(); // Execute the query
@@ -129,7 +129,7 @@
             </table>
             <br>
             <!-- Hidden input field to pass patient ID -->
-            <input type="hidden" name="patientid" value=$patientID>
+            <input type="hidden" name="patientId" value=$patientID>
             <!-- Submit buttons for Delete and Cancel actions -->
             <input type="submit" name="submit" value="Delete">
             <input type="submit" name="submit" value="Cancel">

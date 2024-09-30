@@ -163,7 +163,7 @@
             var socket = new WebSocket(address);
             socket.onmessage = function (msg) {
                 if (msg.data == 'reload') window.location.reload();
-                else if (msg.data == 'refreshcss') refreshCSS();
+                else if (msg.data == 'refreshCss') refreshCSS();
             };
             if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
                 console.log('Live reload enabled.');
@@ -173,7 +173,6 @@
     } else {
         console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
     }
-    // ]]>
     </script>
 </body>
 </html>
