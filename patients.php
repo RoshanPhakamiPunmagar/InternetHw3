@@ -12,11 +12,11 @@
     include 'db_connection.php';
 
     // Check if the user is logged in
-if (!isset($_SESSION['username'])) {
-    // Redirect to the login page if not logged in
-    header("Location: login.php");
-    exit;
-}
+    if (!isset($_SESSION['username'])) {
+        // Redirect to the login page if not logged in
+        header("Location: login.php");
+        exit;
+    }
 
     // Default sorting field is patientid
     $sortBy = 'patientid';
@@ -47,61 +47,67 @@ if (!isset($_SESSION['username'])) {
     // Check if the query was successful
     if ($result) {
         $numResults = $result->num_rows;
+
+        // Check if there are any patient records
+        if ($numResults > 0) {
+            // Start the HTML table if there are records
+            echo "<table border='1' cellpadding='5'>";
+            echo "<thead>";
+            echo "<tr>
+                    <th>Patient ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th>Sex</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Phone</th>
+                    <th></th>
+                    <th></th>
+                  </tr>";
+            echo "</thead>";
+            echo "<tbody>";
+
+            // Fetch each patient's details and display them in a table row
+            for ($i = 0; $i < $numResults; $i++) {
+                $row = $result->fetch_assoc();
+                $id = $row['patientid'];
+                $firstName = $row['first_name'];
+                $lastName = $row['last_name'];
+                $dob = $row['date_of_birth'];
+                $sex = $row['sex'];
+                $address = $row['address'];
+                $city = $row['city'];
+                $phone = $row['phone'];
+
+                // Output the patient data
+                echo "<tr>";
+                echo "<td valign='top'>$id</td>";
+                echo "<td valign='top'>$firstName</td>";
+                echo "<td valign='top'>$lastName</td>";
+                echo "<td valign='top'>$dob</td>";
+                echo "<td valign='top'>$sex</td>";
+                echo "<td valign='top'>$address</td>";
+                echo "<td valign='top'>$city</td>";
+                echo "<td valign='top'>$phone</td>";
+
+                // Create the edit and delete buttons for each patient
+                createButtonColumn("id", $id, "Edit", "edit.php");
+                createButtonColumn("id", $id, "Delete", "delete.php");
+                echo "</tr>";
+            }
+
+            echo "</tbody>";
+            echo "</table>";
+        } else {
+            // No patients found, display a message
+            echo "<p>Sorry, no patient records were found.</p>";
+        }
     } else {
         // If there's an error in the query, display it
         echo "Error retrieving patients: " . $db->error;
         exit;
     }
-
-    // Start the HTML table
-    echo "<table border='1' cellpadding='5'>";
-    echo "<thead>";
-    echo "<tr>
-            <th>Patient ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Date of Birth</th>
-            <th>Sex</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Phone</th>
-            <th></th>
-            <th></th>
-          </tr>";
-    echo "</thead>";
-    echo "<tbody>";
-
-    // Fetch each patient's details and display them in a table row
-    for ($i = 0; $i < $numResults; $i++) {
-        $row = $result->fetch_assoc();
-        $id = $row['patientid'];
-        $firstName = $row['first_name'];
-        $lastName = $row['last_name'];
-        $dob = $row['date_of_birth'];
-        $sex = $row['sex'];
-        $address = $row['address'];
-        $city = $row['city'];
-        $phone = $row['phone'];
-
-        // Output the patient data
-        echo "<tr>";
-        echo "<td valign='top'>$id</td>";
-        echo "<td valign='top'>$firstName</td>";
-        echo "<td valign='top'>$lastName</td>";
-        echo "<td valign='top'>$dob</td>";
-        echo "<td valign='top'>$sex</td>";
-        echo "<td valign='top'>$address</td>";
-        echo "<td valign='top'>$city</td>";
-        echo "<td valign='top'>$phone</td>";
-
-        // Create the edit and delete buttons for each patient
-        createButtonColumn("id", $id, "Edit", "edit.php");
-        createButtonColumn("id", $id, "Delete", "delete.php");
-        echo "</tr>";
-    }
-
-    echo "</tbody>";
-    echo "</table>";
 
     // Free the result set and close the database connection
     $result->free();
@@ -161,7 +167,7 @@ if (!isset($_SESSION['username'])) {
 	else {
 		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
 	}
-	// ]]>
+	
 </script>
 
 
