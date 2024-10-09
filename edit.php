@@ -1,3 +1,14 @@
+ <!-- 
+         * Author: Roshan Phakami PunMagar
+         * File Name: edit.php
+         * Date: 30/9/2024
+         * Purpose:
+         * This script allows the admin to edit a patient's details in the GP Clinic system.
+         * It fetches the patient's current details from the database based on the patient ID supplied via GET.
+         * After editing, the form is submitted, and the data is validated and updated in the database.
+         * The admin also has the option to cancel the editing and return to the patient list.
+        -->
+
 <html>
     <head>
         <title>Edit Patient</title>
@@ -7,19 +18,19 @@
         <h1>Edit Patient</h1>
         
         <?php
-            // Database connection details
-            $dbAddress = 'localhost';
-            $dbUser = 'webauth';
-            $dbPass = 'webauth';
-            $dbName = 'gp_clinic';
-            
-            // Establish a connection to the database
-            $db = new mysqli($dbAddress, $dbUser, $dbPass, $dbName);
-            
-            if ($db->connect_error) {
-                echo "Could not connect to the database";
-                exit;
-            }
+
+// Include the database connection file to connect to the MySQL database
+include 'db_connection.php';
+
+ // Check if the user is logged in
+ if (!isset($_SESSION['username'])) {
+    // If not logged in, redirect the user to the login page
+    header("Location: login.php");
+    exit;
+}
+
+// Start the session to manage user login information
+session_start();
             
             // Check if patient ID is supplied
             if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -157,8 +168,8 @@
                             <td>Sex:</td>
                             <td>
                                 <select name="sex">
-                                    <option value="M" . ($sex == 'Male' ? 'selected' : '') . >Male</option>
-                                    <option value="F" . ($sex == 'Female' ? 'selected' : '') . >Female</option>
+                                    <option value="M" . ($sex == 'Male' ? 'selected' : '') . >M</option>
+                                    <option value="F" . ($sex == 'Female' ? 'selected' : '') . >F/option>
                                 </select>
                             </td>
                         </tr>
@@ -181,9 +192,9 @@
                     <input type="submit" name="submit" value="Cancel">
                 </form>
 END;
-                $result->free();
+                $result->free(); // free the resultset
             }
-            $db->close();
+            $db->close(); // close the database connection
         ?>          
     </body>
 </html>
