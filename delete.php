@@ -29,6 +29,14 @@
         header("Location: login.php");
         exit;
     }
+    
+     // Check if patient ID is supplied
+            if (!isset($_GET['id']) || empty($_GET['id'])) {
+                echo "Error: Patient ID not supplied.";
+                $db->close();
+                exit;
+            }
+
 
     // Get the patient ID from the URL parameters
     $patientID = $_GET['id'];
