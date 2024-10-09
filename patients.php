@@ -75,6 +75,7 @@
             echo "</thead>";
             echo "<tbody>";
 
+
             // Fetch each patient's details and display them in a table row
             for ($i = 0; $i < $numResults; $i++) {
                 $row = $result->fetch_assoc(); // Fetch the current row as an associative array

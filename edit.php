@@ -18,6 +18,8 @@
         <h1>Edit Patient</h1>
         
         <?php
+ // Start the session to manage user login information
+session_start();
 
 // Include the database connection file to connect to the MySQL database
 include 'db_connection.php';
@@ -28,9 +30,6 @@ include 'db_connection.php';
     header("Location: login.php");
     exit;
 }
-
-// Start the session to manage user login information
-session_start();
             
             // Check if patient ID is supplied
             if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -112,17 +111,17 @@ session_start();
                 // Check if the update was successful or no changes were made
                 if ($affectedRows == 1) {
                     echo "Successfully Updated Patient<br>";
-                    echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+                    echo "<a href=\"patients.php\">Back to Patient List</a>";
                     echo "<br><hr>";
                     exit;     
                 } else if ($affectedRows == 0) {
                     echo "No changes were made. The data was identical to what is already in the database.<br>";
-                    echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+                    echo "<a href=\"patients.php\">Back to Patient List</a>";
                     echo "<br><hr>";
                     exit;
                 } else {
                     echo "Failed to Update Patient<br>";
-                    echo "<a href=\"view_patients.php\">Back to Patient List</a>";
+                    echo "<a href=\"patients.php\">Back to Patient List</a>";
                     echo "<br><hr>";
                     exit;               
                 }
