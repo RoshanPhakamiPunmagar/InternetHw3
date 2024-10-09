@@ -32,7 +32,8 @@
     
      // Check if patient ID is supplied
             if (!isset($_GET['id']) || empty($_GET['id'])) {
-                echo "Error: Patient ID not supplied.";
+                echo "Error: Patient ID not supplied.<br>";
+                echo "<a href=\"patients.php\">Back to Patient List</a>";
                 $db->close();
                 exit;
             }
@@ -87,7 +88,8 @@
         // Check if the patient exists in the database
         if ($result->num_rows === 0) {
             // If no patient found, display an error message
-            echo "No patient found with ID $patientID.";
+            echo "No patient found with ID $patientID.<br>";
+            echo "<a href=\"patients.php\">Back to Patient List</a>";
             exit;
         }
 

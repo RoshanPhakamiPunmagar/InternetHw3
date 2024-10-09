@@ -33,7 +33,8 @@ include 'db_connection.php';
             
             // Check if patient ID is supplied
             if (!isset($_GET['id']) || empty($_GET['id'])) {
-                echo "Error: Patient ID not supplied.";
+                echo "Error: Patient ID not supplied.<br>";
+                echo "<a href=\"patients.php\">Back to Patient List</a>";
                 $db->close();
                 exit;
             }
@@ -57,7 +58,8 @@ include 'db_connection.php';
                     !isset($_POST['sex']) || empty($_POST['sex']) || 
                     !isset($_POST['address']) || empty($_POST['address']) || 
                     !isset($_POST['city']) || empty($_POST['city'])) {
-                    echo "Error: All fields must be filled.";
+                    echo "Error: All fields must be filled.<br>";
+                    echo "<a href=\"patients.php\">Back to Patient List</a>";
                     $db->close();
                     exit;
                 }
