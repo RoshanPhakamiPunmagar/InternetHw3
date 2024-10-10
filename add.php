@@ -43,7 +43,7 @@
         }
 
         // Validate that all required fields are filled
-        if (empty($_POST['first_name']) || empty($_POST['last_name']) || empty($_POST['dob']) ||
+        if (empty($_POST['first-name']) || empty($_POST['last-name']) || empty($_POST['date-of-birth']) ||
             empty($_POST['sex']) || empty($_POST['address']) || empty($_POST['city']) || empty($_POST['phone'])) {
             echo "Error: All fields are required.";  // Display error if any field is missing
             $db->close();  // Close the database connection
@@ -51,13 +51,14 @@
         }
 
         // Assign form values to variables
-        $firstName = $_POST['first_name'];
-        $lastName = $_POST['last_name'];
-        $dob = $_POST['dob'];
+        $firstName = $_POST['first-name'];
+        $lastName = $_POST['last-name'];
+        $dob = $_POST['date-of-birth'];
         $sex = $_POST['sex'];
         $address = $_POST['address'];
         $city = $_POST['city'];
         $phone = $_POST['phone'];
+        
 
         // Prepare an SQL query to insert patient data into the database
         $query = "INSERT INTO patients (first_name, last_name, date_of_birth, sex, address, city, phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -83,46 +84,47 @@
         // If the form has not been submitted, display the form for adding a patient
         echo <<<END
         <form action="" method="POST">
-            <table>
-                <tr>
-                    <td>First Name:</td>
-                    <td><input type="text" name="first_name" required></td>
-                </tr>
-                <tr>
-                    <td>Last Name:</td>
-                    <td><input type="text" name="last_name" required></td>
-                </tr>
-                <tr>
-                    <td>Date of Birth:</td>
-                    <td><input type="date" name="dob" required></td>
-                </tr>
-                <tr>
-                    <td>Sex:</td>
-                    <td>
-                        <select name="sex" required>
-                            <option value="M">M</option>
-                            <option value="F">F</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Address:</td>
-                    <td><input type="text" name="address" required></td>
-                </tr>
-                <tr>
-                    <td>City:</td>
-                    <td><input type="text" name="city" required></td>
-                </tr>
-                <tr>
-                    <td>Phone:</td>
-                    <td><input type="text" name="phone" required></td>
-                </tr>
-            </table>
-            <br>
-            <!-- Submit and Cancel buttons -->
-            <input type="submit" name="submit" value="Add">
-            <input type="submit" name="submit" value="Cancel">
-        </form>
+    <table>
+        <tr>
+            <td>First Name:</td>
+            <td><input type="text" id="first-name" name="first-name" required></td>
+        </tr>
+        <tr>
+            <td>Last Name:</td>
+            <td><input type="text" id="last-name" name="last-name" required></td>
+        </tr>
+        <tr>
+            <td>Date of Birth:</td>
+            <td><input type="date" id="dob" name="date-of-birth" required></td>
+        </tr>
+        <tr>
+            <td>Sex:</td>
+            <td>
+                <select id="sex" name="sex" required>
+                    <option value="M">M</option>
+                    <option value="F">F</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td><input type="text" id="address" name="address" required></td>
+        </tr>
+        <tr>
+            <td>City:</td>
+            <td><input type="text" id="city" name="city" required></td>
+        </tr>
+        <tr>
+            <td>Phone:</td>
+            <td><input type="text" id="phone" name="phone" required></td>
+        </tr>
+    </table>
+    <br>
+    <!-- Submit and Cancel buttons -->
+    <input type="submit" name="submit" value="Add">
+    <input type="submit" name="submit" value="Cancel">
+</form>
+
 END;
     }
 

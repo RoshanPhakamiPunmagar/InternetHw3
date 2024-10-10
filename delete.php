@@ -30,17 +30,16 @@
         exit;
     }
     
-     // Check if patient ID is supplied
-            if (!isset($_GET['id']) || empty($_GET['id'])) {
-                echo "Error: Patient ID not supplied.<br>";
-                echo "<a href=\"patients.php\">Back to Patient List</a>";
-                $db->close();
-                exit;
-            }
-
+    // Check if patient ID is supplied
+    if (!isset($_GET['id']) || empty($_GET['id'])) {
+        echo "Error: Patient ID not supplied.<br>";
+        echo "<a href=\"patients.php\">Back to Patient List</a>";
+        $db->close();
+        exit;
+    }
 
     // Get the patient ID from the URL parameters
-    $patientID = $_GET['id'];
+    $patientId = $_GET['id'];
 
     // Check if the form has been submitted (for Delete or Cancel)
     if (isset($_POST['submit'])) {
@@ -56,7 +55,7 @@
         // Prepare the SQL query to delete the patient from the database
         $query = "DELETE FROM patients WHERE patientId = ?";
         $stmt = $db->prepare($query); // Prepare the SQL statement
-        $stmt->bind_param("i", $patientID); // Bind the patient ID parameter
+        $stmt->bind_param("i", $patientId); // Bind the patient ID parameter
         $stmt->execute(); // Execute the deletion
 
         $affectedRows = $stmt->affected_rows; // Get the number of affected rows
@@ -77,18 +76,18 @@
         }
     } else {
         // Fetch the patient details to display for confirmation before deletion
-        $query_patient_details = "SELECT * FROM patients WHERE patientId = ?";
-        $stmt_patient_details = $db->prepare($query_patient_details); // Prepare SQL query
-        $stmt_patient_details->bind_param("i", $patientID); // Bind the patient ID parameter
-        $stmt_patient_details->execute(); // Execute the query
+        $queryPatientDetails = "SELECT * FROM patients WHERE patientId = ?";
+        $stmtPatientDetails = $db->prepare($queryPatientDetails); // Prepare SQL query
+        $stmtPatientDetails->bind_param("i", $patientId); // Bind the patient ID parameter
+        $stmtPatientDetails->execute(); // Execute the query
 
-        $result = $stmt_patient_details->get_result(); // Get the result of the query
-        $stmt_patient_details->close(); // Close the prepared statement
+        $result = $stmtPatientDetails->get_result(); // Get the result of the query
+        $stmtPatientDetails->close(); // Close the prepared statement
 
         // Check if the patient exists in the database
         if ($result->num_rows === 0) {
             // If no patient found, display an error message
-            echo "No patient found with ID $patientID.<br>";
+            echo "No patient found with ID $patientId.<br>";
             echo "<a href=\"patients.php\">Back to Patient List</a>";
             exit;
         }
@@ -105,7 +104,7 @@
 
         // Display the patient's details in a form for deletion confirmation
         echo <<<END
-        Delete Patient with ID: <strong>$patientID</strong><br><br>
+        Delete Patient with ID: <strong>$patientId</strong><br><br>
         <form action="" method="POST">
             <table>
                 <tr>
@@ -139,7 +138,7 @@
             </table>
             <br>
             <!-- Hidden input field to pass patient ID -->
-            <input type="hidden" name="patientId" value=$patientID>
+            <input type="hidden" id="patient-id" name="patient-id" value="$patientId">
             <!-- Submit buttons for Delete and Cancel actions -->
             <input type="submit" name="submit" value="Delete">
             <input type="submit" name="submit" value="Cancel">
